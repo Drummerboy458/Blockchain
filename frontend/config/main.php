@@ -36,6 +36,16 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
+         'urlManager' => [
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
+            'enableStrictParsing' => false,
+            "suffix" => "",
+            "rules" => [        
+            "<controller:\w+>/<id:\d+>"=>"<controller>/view",  
+            "<controller:\w+>/<action:\w+>"=>"<controller>/<action>"    
+            ],
+        ],
         /*
         'urlManager' => [
             'enablePrettyUrl' => true,
@@ -46,4 +56,5 @@ return [
         */
     ],
     'params' => $params,
+    'defaultRoute' => 'site/login'
 ];
