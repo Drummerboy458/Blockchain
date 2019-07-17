@@ -3,7 +3,7 @@ namespace frontend\models;
 
 use yii\base\Model;
 use common\models\User;
-
+use linslin\yii2\curl;
 /**
  * Signup form
  */
@@ -54,5 +54,34 @@ class SignupForm extends Model
         $user->generateAuthKey();
         
         return $user->save() ? $user : null;
+    }
+
+     public function postUser($name,$id)
+    {
+        $data = [
+              "\$class" => "org.exchangeMerchandises.TheNode",
+              "theNodeID" => $id,
+              "theNodeDescription" => $name,
+        ];
+        $url = 'http://148.100.244.179:3000/api/org.exchangeMerchandises.TheNode';
+        $curl = new curl\Curl();
+        $response = $curl->setRequestBody(json_encode($data))
+            ->setHeaders([
+                'Content-Type' => 'application/json',
+                'Content-Length' => strlen(json_encode($data))
+            ])
+            ->post($url);
+        if($curl->responseCode == 200)
+        {
+             return true;
+        }
+        else
+        {
+            return false;
+        }
+        //list response headers
+        //var_dump($curl->responseHeaders);
+        //return json_decode($response,true);
+        
     }
 }

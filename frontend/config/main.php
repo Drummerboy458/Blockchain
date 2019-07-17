@@ -11,6 +11,15 @@ return [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
+    'modules' => [
+        "admin" => [        
+        "class" => "mdm\admin\Module",
+        //'layout' => 'left-menu',//yii2-admin的导航菜单
+        ],
+    ],
+     "aliases" => [    
+    "@mdm/admin" => "@vendor/mdmsoft/yii2-admin",
+    ],
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-frontend',

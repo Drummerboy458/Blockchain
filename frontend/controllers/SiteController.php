@@ -8,7 +8,9 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use common\models\LoginForm;
+use common\models\User;
 use frontend\models\SignupForm;
+
 
 /**
  * Site controller
@@ -85,7 +87,7 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-             $this->redirect(['site/index']);//重定向到用户信息页，即登录成功
+             $this->redirect(['merchandise/index']);//重定向到快递服务页面，即登录成功
         } else {
             return $this->render('login', [
                 'model' => $model,
@@ -104,7 +106,6 @@ class SiteController extends Controller
 
          $this->redirect(['site/login']);
     }
-
     /**
      * Signs user up.
      *
@@ -114,19 +115,19 @@ class SiteController extends Controller
     {
         $model = new SignupForm();
         if ($model->load(Yii::$app->request->post())) {
-            if ($user = $model->signup()) {
-                $this->redirect(['login']);
+            if ($user = $model->signup()){  //注册成功后，获取当前用户ID
+                $current = User::findByUsername($model->username);
+                if($model->postUser($model->username,$current->id))
+                    $this->redirect(['login']);
+                else{
+                    return $this->render('signup', [
+                        'model' => $model,
+                    ]);
+                }
             }
         }
-
         return $this->render('signup', [
             'model' => $model,
         ]);
-    }
-
-    public function actionApi()
-    {
-        
-        return $this->render('api');
     }
 }
