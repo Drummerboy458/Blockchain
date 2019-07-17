@@ -40,10 +40,10 @@ class Merchandise extends \yii\db\ActiveRecord
     {
         return [
             'merchandiseID' => '订单号',
-            'merchandiseDescription' => '订单描述',
-            'beginning' => '起点站',
-            'destination' => '终点站',
-            'nowNode' => '当前位置',
+            'merchandiseDescription' => '订单备注',
+            'beginning' => '寄件人',
+            'destination' => '收件人',
+            'nowNode' => '当前状态',
         ];
     }
 
@@ -77,5 +77,50 @@ class Merchandise extends \yii\db\ActiveRecord
             //var_dump($response);
             return false;
         }
+    }
+
+    function object_array($array) {  
+        if(is_object($array)) {  
+            $array = (array)$array;  
+         } if(is_array($array)) {  
+             foreach($array as $key=>$value) {  
+                 $array[$key] =  Merchandise::object_array($value);  
+                 }  
+         }  
+         return $array;  
+    }
+
+     public function getDone()
+    {
+        $curl = new curl\Curl();
+        $response = $curl->setHeaders([
+             'Content-Type' => 'application/json',
+        ])->setGetParams([
+        'NodeIDofTheBeginning' => 'resource:org.exchangeMerchandises.TheNode#'.(string)Yii::$app->user->identity->id,       //查询已寄送成功的订单
+     ])->get('http://148.100.244.179:3000/api/queries/selectMerchandiseByBeginID');
+
+        $data = json_decode($response);
+       
+        $array =  Merchandise::object_array($data);
+        print_r($array);
+        //echo $array['merchandiseID'];
+        return $array ;
+    }
+
+    public function getTrans()
+    {
+        $curl = new curl\Curl();
+        $response = $curl->setHeaders([
+             'Content-Type' => 'application/json',
+        ])->setGetParams([
+        'NodeIDofTheEnd' => 'resource:org.exchangeMerchandises.TheNode#'.(string)Yii::$app->user->identity->id,       //查询已寄送成功的订单
+     ])->get('http://148.100.244.179:3000/api/queries/selectTransportingIDByBeginningNode');
+
+        $data = json_decode($response);
+       
+        $array =  Merchandise::object_array($data);
+        print_r($array);
+        //echo $array['merchandiseID'];
+        return $array ;
     }
 }

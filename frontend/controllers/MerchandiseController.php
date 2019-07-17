@@ -35,12 +35,17 @@ class MerchandiseController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new MerchandiseSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+       $results = Merchandise::getTrans();
         return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+            'transports' => $results,
+        ]);
+    }
+
+     public function actionDone()
+    {
+       $results = Merchandise::getDone();
+        return $this->render('done', [
+            'histories' => $results,
         ]);
     }
 
@@ -65,9 +70,19 @@ class MerchandiseController extends Controller
     {
         $model = new Merchandise();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            if($model->addOrder())
-                return $this->redirect(['view', 'id' => $model->merchandiseID]);
+        if ($model->load(Yii::$app->request->post()) ){
+            $model->nowNode = '1';
+            $model->beginning = (string)Yii::$app->user->identity->id;
+    
+            if($model->save())
+            {
+               
+                if($model->addOrder())
+                {   
+                    
+                    return $this->redirect(['view', 'id' => $model->merchandiseID]);
+                }   
+            }
         } else {
             return $this->render('create', [
                 'model' => $model,

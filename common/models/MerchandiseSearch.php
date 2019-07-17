@@ -6,7 +6,7 @@ use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use common\models\Merchandise;
-
+use yii\data\ArrayDataProvider;
 /**
  * MerchandiseSearch represents the model behind the search form about `common\models\Merchandise`.
  */
@@ -43,6 +43,7 @@ class MerchandiseSearch extends Merchandise
     {
         $query = Merchandise::find();
 
+        //print_r($query);
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
@@ -60,6 +61,7 @@ class MerchandiseSearch extends Merchandise
         // grid filtering conditions
         $query->andFilterWhere([
             'merchandiseID' => $this->merchandiseID,
+            'nowNode'=> $this->destination,
         ]);
 
         $query->andFilterWhere(['like', 'merchandiseDescription', $this->merchandiseDescription])

@@ -30,11 +30,12 @@
                 'items' => [
                      [
                         'label' => '快递服务',
-                        'icon' => ' fa-user',
+                        'icon' => ' fa-gift',
                         'url' => 'javascript:;',
                         'items' => [
-                            ['label' => '包裹运输情况', 'icon' => '   fa-truck', 'url' => ['/merchandise/index']],
-                            ['label' => '寄送快递', 'icon' => '  fa-tag', 'url' => ['/merchandise/create']],
+                            ['label' => '寄送快递', 'icon' => '  fa-map-signs', 'url' => ['/merchandise/create']],
+                            ['label' => '运输中', 'icon' => '   fa-truck', 'url' => ['/merchandise/index']],
+                            ['label' => '已送达', 'icon' => ' fa-check-circle', 'url' => ['/merchandise/done']],
                             // ['label' => '运输中', 'icon' => ' fa-check-circle', 'url' => ['']],
                             // ['label' => '历史签收', 'icon' => ' fa-check-circle', 'url' => ['']],
                         ],

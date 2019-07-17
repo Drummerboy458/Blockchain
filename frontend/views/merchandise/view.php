@@ -18,29 +18,28 @@ $this->params['breadcrumbs'][] = $this->title;
             'merchandiseID',
             'merchandiseDescription',
             [
-                'label'=>'收件地址',  
+                'label'=>'收件人',  
                 'attribute' => 'destination',  
                 'value' => function ($model) {
-                    $location = [
-                        '1' => '天津',
-                        '2' => '长春',
-                        '3' => '兰州',
-                        '4' => '江苏',
-                        '5' => '云南',
+                    $person = [
+                        '18' => '汶汶',
+                        '19' => '峰峰',
+                        '20' => '阳阳',
+                        '21' => '飞飞',
                     ];
-                 return $location[$model->destination];
+                 return $person[$model->destination];
                 },
             ],
             [
-                'label'=>'当前位置',  
+                'label'=>'当前状态',  
                 'attribute' => 'nowNode',  
                 'value' => function ($model) {
                     $location = [
-                        '1' => '天津',
-                        '2' => '长春',
-                        '3' => '兰州',
-                        '4' => '江苏',
-                        '5' => '云南',
+                        '1' => '【已揽件】【收件员xxx】已收件',
+                        '2' => '【运输中】由【中转站甲】送往【中转站乙】',
+                        '3' => '【运输中】由【中转站乙】送往【中转站丙】',
+                        '4' => '【运输中】正在等待投递',
+                        '5' => '【派送中】正在派送',
                     ];
                  return $location[$model->nowNode];
                 },
