@@ -71,17 +71,11 @@ class SignupForm extends Model
                 'Content-Length' => strlen(json_encode($data))
             ])
             ->post($url);
-        if($curl->responseCode == 200)
-        {
+        if($curl->responseCode == 200){
              return true;
         }
-        else
-        {
+        else{
             return false;
         }
-        //list response headers
-        //var_dump($curl->responseHeaders);
-        //return json_decode($response,true);
-        
     }
 }

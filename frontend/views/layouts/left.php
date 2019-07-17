@@ -36,10 +36,20 @@
                             ['label' => '寄送快递', 'icon' => '  fa-map-signs', 'url' => ['/merchandise/create']],
                             ['label' => '运输中', 'icon' => '   fa-truck', 'url' => ['/merchandise/index']],
                             ['label' => '已送达', 'icon' => ' fa-check-circle', 'url' => ['/merchandise/done']],
+                            ['label' => '已签收', 'icon' => ' fa-check-circle', 'url' => ['/merchandise/my-pocket']],
                             // ['label' => '运输中', 'icon' => ' fa-check-circle', 'url' => ['']],
                             // ['label' => '历史签收', 'icon' => ' fa-check-circle', 'url' => ['']],
                         ],
-                    ],    
+                    ],
+
+                     [
+                        'label' => '我的消息',
+                        'icon' => ' fa-commenting-o',
+                        'url' => 'javascript:;',
+                        'items' => [
+                            ['label' => '确认收货', 'icon' => ' fa-check-circle', 'url' => ['/merchandise/confirm']],
+                        ],
+                    ],        
                     
                     ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],
                     [

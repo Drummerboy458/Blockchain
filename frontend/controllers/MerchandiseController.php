@@ -49,6 +49,33 @@ class MerchandiseController extends Controller
         ]);
     }
 
+     public function actionMyPocket()
+    {
+       $results = Merchandise::getPocket();
+        return $this->render('mypockets', [
+            'pockets' => $results,
+        ]);
+    }
+
+     public function actionConfirm()
+    {
+       $model = new Merchandise();
+       $results = $model->getConfirms();
+       if (Yii::$app->request->post())   //确认收货
+       {
+            if($model->yes($results[0]['merchandiseID']))
+            {
+                \Yii::$app->getSession()->setFlash('success', '确认收货成功!');
+            }
+       }
+       else
+            echo "拒绝收货！";
+        return $this->render('confirm', [
+        'confirms' => $results,
+        'model' => $model,
+    ]);
+    }
+
     /**
      * Displays a single Merchandise model.
      * @param integer $id

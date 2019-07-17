@@ -17,29 +17,71 @@ $this->params['breadcrumbs'][] = $this->title;
 </head>
     <?php
      foreach ($histories as $history) {
+
+    switch ($history['beginning']) {
+        case 'resource:org.exchangeMerchandises.TheNode#18':
+            $history['beginning'] = '汶汶';
+            # code...
+            break;
+        case 'resource:org.exchangeMerchandises.TheNode#19':
+            $history['beginning'] = '峰峰';
+            # code...
+            break;
+        case 'resource:org.exchangeMerchandises.TheNode#20':
+            $history['beginning'] = '阳阳';
+            # code...
+            break;
+        case 'resource:org.exchangeMerchandises.TheNode#21':
+            $history['beginning'] = '飞飞';
+            # code...
+            break;
+        default:
+            # code...
+            break;
+    }
+     switch ($history['destination']) {
+        case 'resource:org.exchangeMerchandises.TheNode#18':
+            $history['destination'] = '汶汶';
+            # code...
+            break;
+        case 'resource:org.exchangeMerchandises.TheNode#19':
+            $history['destination'] = '峰峰';
+            # code...
+            break;
+        case 'resource:org.exchangeMerchandises.TheNode#20':
+            $history['destination'] = '阳阳';
+            # code...
+            break;
+        case 'resource:org.exchangeMerchandises.TheNode#21':
+            $history['destination'] = '飞飞';
+            # code...
+            break;
+        default:
+            # code...
+            break;
+    }
            // print_r($history);
-        echo "<div>
+        echo "<div style= \"background-color: rgb(247,247,247);margin-top: 20px;padding:30px; border-radius: 30px;  \">
             <p>
-                ",$history['merchandiseID'],"
+                订单号：",$history['merchandiseID'],"
             </p>
 
             <p>
-                ",$history['merchandiseDescription'],"
+                订单描述：",$history['merchandiseDescription'],"
             </p>
 
             <p>
-                ",$history['beginning'],"
+               寄件人： ",$history['beginning'],"
             </p>
             <p>
-                ",$history['destination'],"
+               收件人： ",$history['destination'],"
             </p>
             <p>
-                ",$history['nowNode'],"
+               当前状态： 【已签收】",$history['destination'],"已收到您的包裹~
             </p>
 
         </div>
         ";
         }
         
-    ?>
-   
+?>

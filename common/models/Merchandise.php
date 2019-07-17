@@ -58,7 +58,7 @@ class Merchandise extends \yii\db\ActiveRecord
               "requiring"=> false,
               "beginning"=> "resource:org.exchangeMerchandises.TheNode#".$this->beginning,
               "destination"=> "resource:org.exchangeMerchandises.TheNode#".$this->destination,
-              "nowNode"=> "resource:org.exchangeMerchandises.TheNode#".$this->beginning,
+              "nowNode"=> "resource:org.exchangeMerchandises.TheNode#1",
         ];
         $url = 'http://148.100.244.179:3000/api/org.exchangeMerchandises.Merchandise';
         $curl = new curl\Curl();
@@ -102,7 +102,7 @@ class Merchandise extends \yii\db\ActiveRecord
         $data = json_decode($response);
        
         $array =  Merchandise::object_array($data);
-        print_r($array);
+        //print_r($array);
         //echo $array['merchandiseID'];
         return $array ;
     }
@@ -113,14 +113,79 @@ class Merchandise extends \yii\db\ActiveRecord
         $response = $curl->setHeaders([
              'Content-Type' => 'application/json',
         ])->setGetParams([
-        'NodeIDofTheEnd' => 'resource:org.exchangeMerchandises.TheNode#'.(string)Yii::$app->user->identity->id,       //查询已寄送成功的订单
+        'NodeIDofTheEnd' => 'resource:org.exchangeMerchandises.TheNode#'.(string)Yii::$app->user->identity->id,       //查询正在运输的物流
      ])->get('http://148.100.244.179:3000/api/queries/selectTransportingIDByBeginningNode');
 
         $data = json_decode($response);
        
         $array =  Merchandise::object_array($data);
-        print_r($array);
+        //print_r($array);
         //echo $array['merchandiseID'];
         return $array ;
+    }
+
+
+    public function getConfirms()
+    {
+        $curl = new curl\Curl();
+        $response = $curl->setHeaders([
+             'Content-Type' => 'application/json',
+        ])->setGetParams([
+        'NodeIDofAttempt' => 'resource:org.exchangeMerchandises.TheNode#'.(string)Yii::$app->user->identity->id,       
+     ])->get('http://148.100.244.179:3000/api/queries/selectRequiringMerchandiseByID');
+
+       // var_dump($response);
+        $data = json_decode($response);
+       
+        $array =  Merchandise::object_array($data);
+        //print_r($array);
+        //echo $array['merchandiseID'];
+        return $array ;
+    }
+
+     public function getPocket()
+    {
+        $curl = new curl\Curl();
+        $response = $curl->setHeaders([
+             'Content-Type' => 'application/json',
+        ])->setGetParams([
+        'NodeIDofTheEnd' => 'resource:org.exchangeMerchandises.TheNode#'.(string)Yii::$app->user->identity->id,       //查询已寄送成功的订单
+     ])->get('http://148.100.244.179:3000/api/queries/selectMerchandiseByEndID');
+
+       // var_dump($response);
+        $data = json_decode($response);
+       
+        $array =  Merchandise::object_array($data);
+        //print_r($array);
+        //echo $array['merchandiseID'];
+        return $array ;
+    }
+
+     public function yes($id)
+    {
+       
+        $data = [
+              "\$class"=> "org.exchangeMerchandises.Exchange",
+              "merchandise"=>"resource:org.exchangeMerchandises.Merchandise#".(string)$id,
+              "before"=> "resource:org.exchangeMerchandises.TheNode#5",
+              "after"=> "resource:org.exchangeMerchandises.TheNode#".(string)Yii::$app->user->identity->id,
+        ];
+        $url = 'http://148.100.244.179:3000/api/org.exchangeMerchandises.Exchange';
+        $curl = new curl\Curl();
+        $response = $curl->setRequestBody(json_encode($data))
+            ->setHeaders([
+                'Content-Type' => 'application/json',
+                'Content-Length' => strlen(json_encode($data))
+            ])
+            ->post($url);
+        if($curl->responseCode == 200)
+        {
+             return true;
+        }
+        else
+        {
+            //var_dump($response);
+            return false;
+        }
     }
 }
